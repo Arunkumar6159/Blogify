@@ -1,0 +1,23 @@
+{
+  "name": "blogifyproject",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arunkumar6159/Blogify.git"
+  },
+  "author": "Arun kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arunkumar6159/Blogify/issues"
+  },
+  "homepage": "https://github.com/Arunkumar6159/Blogify#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
