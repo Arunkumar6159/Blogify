@@ -8,9 +8,12 @@ const port=3000;
 app.listen(port,()=>{
     console.log(`listening on ${port}`);
 })
-app.get("/",(req,res)=>{
-    res.send("<h1>hello world</h1>")
-})
 app.get("/Blogify",(req,res)=>{
     res.render("home");
+})
+app.get("/Blogify/login",(req,res)=>{
+    res.render("login");
+})
+app.get("/Blogify/signup",(req,res)=>{
+    res.render("signup");
 })
