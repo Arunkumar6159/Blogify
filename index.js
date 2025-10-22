@@ -2,6 +2,7 @@
 const express=require("express");
 const path=require("path");
 const app=express();
+const {v4:uuidv4}=require('uuid');
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.static(path.join(__dirname,"public")));
@@ -17,7 +18,7 @@ const users=[{username:"arun",
 }]
 const posts=[
     {
-        id:"123",
+        id:uuidv4(),
         username:"arun",
         blog:"hello world"
     }
@@ -64,12 +65,13 @@ app.get("/blogify/newpost",(req,res)=>{
 })
 app.post("/blogify/newpost",(req,res)=>{
     let {username,blog}=req.body;
-    let details={username};
+    let details={username};//username:"xyz"
     let user=posts.find((p)=>details.username===p.username);
     if(!user)
         res.send("username not found");
-    else{  
-    let newpost={username,blog};
+    else{
+        let id=uuidv4();
+    let newpost={id,username,blog};
     posts.push(newpost);
     res.render("Allposts",{posts});
     }
@@ -84,5 +86,12 @@ app.get("/blogify/yourpost/:id",(req,res)=>{
     }
 })
 app.get("/blogify/allposts",(req,res)=>{
+    res.render("Allposts",{posts});
+})
+app.patch("blogify/:id",(req,res)=>{
+    let {id}=req.params;
+    let newContent=req.body.content;
+    let post=posts.find((p)=>p.id===id)
+    post.blog=newContent;
     res.render("Allposts",{posts});
 })
