@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All posts</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <h1>Join the conversation</h1>
+    <a href="http://localhost:3000/blogify/newpost">add new post</a>
+    <div class="allposts">
+    <%for(post of posts){%>
+        <div class="eachuser">
+        <h3>@<%=post.username%></h3>
+        <p><%=post.blog%></p>
+        <a href="http://localhost:3000/blogify/yourpost/<%=post.id%>">see in detail</a>
+        </div>
+    <%}%>
+    </div>
+</body>
+</html>

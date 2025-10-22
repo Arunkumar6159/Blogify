@@ -2,11 +2,12 @@
 const express=require("express");
 const path=require("path");
 const app=express();
-app.use(express.urlencoded({extended:true}));
-app.use(express.json());
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
+app.use(express.static(path.join(__dirname,"public")));
 const port=3000;
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 const users=[{username:"arun",
     password:"Arun@123",
     firstName:"Arun",
@@ -14,6 +15,13 @@ const users=[{username:"arun",
     email:"arun@123",
     anotherpassword:"arun123"
 }]
+const posts=[
+    {
+        id:"123",
+        username:"arun",
+        blog:"hello world"
+    }
+]
 app.listen(port,()=>{
     console.log(`listening on ${port}`);
 })
@@ -30,7 +38,7 @@ app.post("/blogify/signuppage",(req,res)=>{
      let {username,password,lastName,firstName,email,anotherpassword}=req.body;
      let newData={username,password,lastName,firstName,email,anotherpassword};
      users.push(newData);
-     res.render("home");
+     res.render("Allposts",{posts});
 })
 app.post("/blogify/login",(req,res)=>{
     let {username,password}=req.body;
@@ -44,10 +52,37 @@ app.post("/blogify/login",(req,res)=>{
             res.send('wrong password');
         else
         {
-            res.render("allusers",{users});
+            res.render("Allposts",{posts});
         }
     }
 })
 app.get("/blogify/find",(req,res)=>{
     res.render("allusers",{users});
+})
+app.get("/blogify/newpost",(req,res)=>{
+    res.render("newpost");  
+})
+app.post("/blogify/newpost",(req,res)=>{
+    let {username,blog}=req.body;
+    let details={username};
+    let user=posts.find((p)=>details.username===p.username);
+    if(!user)
+        res.send("username not found");
+    else{  
+    let newpost={username,blog};
+    posts.push(newpost);
+    res.render("Allposts",{posts});
+    }
+})
+app.get("/blogify/yourpost/:id",(req,res)=>{
+    let {id}=req.params;
+    let found=posts.find((p)=>id===p.id);
+    if(!found)
+        res.send("id not found")
+    else{
+        res.render("yourpost",{found});
+    }
+})
+app.get("/blogify/allposts",(req,res)=>{
+    res.render("Allposts",{posts});
 })
